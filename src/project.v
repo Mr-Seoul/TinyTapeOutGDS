@@ -753,7 +753,6 @@ module tt_um_example (
   // All output pins must be assigned. If not used, assign to 0.
     assign uio_out = 8'b0;
     assign uio_oe = 8'b0;
-    assign uio_in = 8'b0;
 
     VGAModule VGA (
         .clock(clk),
@@ -769,6 +768,6 @@ module tt_um_example (
     );
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, clk, rst_n, 1'b0};
+  wire _unused = &{ena, ui_in[7:2], clk, rst_n, 1'b0};
 
 endmodule
