@@ -751,14 +751,8 @@ module tt_um_example (
 );
 
   // All output pins must be assigned. If not used, assign to 0.
-    assign uio_out[0]  = 0; 
-    assign uio_out[1]  = 0;
-    assign uio_out[2]  = 0;
-    assign uio_out[3]  = 0;
-    assign uio_out[4]  = 0;
-    assign uio_out[5]  = 0;
-    assign uio_out[6]  = 0;
-    assign uio_out[7]  = 0;
+    assign uio_out = 8'b0;
+    assign uio_oe = 8'b0;
 
     VGAModule VGA (
         .clock(clk),
