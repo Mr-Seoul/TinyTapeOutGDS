@@ -764,14 +764,14 @@ module tt_um_example (
         .clock(clk),
         .reset(rst_n),
         .io_col_R(uo_out[1:0]),
-        .io_col_R(uo_out[3:2]),
-        .io_col_R(uo_out[5:4]),
+        .io_col_G(uo_out[3:2]),
+        .io_col_B(uo_out[5:4]),
         .io_hsync(uo_out[6]),
         .io_vsync(uo_out[7]),
-        io_input1(ui_in[0]),
-        io_input2(ui_in[1])
+        .io_input1(ui_in[0]),
+        .io_input2(ui_in[1])
     
-    )
+    );
 
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, clk, rst_n, 1'b0};
