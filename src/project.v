@@ -768,6 +768,6 @@ module tt_um_example (
     );
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, ui_in[7:2], clk, rst_n, 1'b0};
+  wire _unused = &{ena, ui_in[7:2], uio_in[7:0], clk, rst_n, 1'b0};
 
 endmodule
