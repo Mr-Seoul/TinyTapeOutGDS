@@ -247,6 +247,7 @@ module BallObj(
   wire [10:0] _curPos_0_T_5 = $signed(curPos_0) - $signed(_GEN_14); // @[\\src\\main\\scala\\vga\\Ball.scala 30:67]
   wire [10:0] _curPos_0_T_6 = goingRight ? $signed(_curPos_0_T_2) : $signed(_curPos_0_T_5); // @[\\src\\main\\scala\\vga\\Ball.scala 30:21]
   wire [10:0] _curPos_1_T_2 = $signed(curPos_1) + $signed(_GEN_14); // @[\\src\\main\\scala\\vga\\Ball.scala 31:43]
+  wire [10:0] _curPos_1_T_5 = $signed(curPos_1) - $signed(_GEN_14); // @[\\src\\main\\scala\\vga\\Ball.scala 31:66]
   wire [10:0] _T_7 = $signed(io_P1Pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 43:90]
   wire [10:0] _T_11 = 11'sh0 - $signed(_T_7); // @[\\src\\main\\scala\\vga\\Ball.scala 43:103]
   wire [10:0] _T_12 = $signed(_T_7) < 11'sh0 ? $signed(_T_11) : $signed(_T_7); // @[\\src\\main\\scala\\vga\\Ball.scala 43:103]
@@ -307,7 +308,7 @@ module BallObj(
       if (goingDown) begin // @[\\src\\main\\scala\\vga\\Ball.scala 31:21]
         curPos_1 <= _curPos_1_T_2;
       end else begin
-        curPos_1 <= _curPos_0_T_5;
+        curPos_1 <= _curPos_1_T_5;
       end
     end
     goingRight <= reset | _GEN_11; // @[\\src\\main\\scala\\vga\\Ball.scala 23:{27,27}]
@@ -643,6 +644,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+
 
 
 module tt_um_example (
