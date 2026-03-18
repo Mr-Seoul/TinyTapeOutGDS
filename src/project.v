@@ -13,7 +13,8 @@ module PaddleObj(
   input  [10:0] io_pos_1, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
   output        io_inbound, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
   output [10:0] io_paddlePos_1, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
-  input         io_updateLogic // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
+  input         io_updateLogic, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
+  output        io_sideX // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -33,8 +34,9 @@ module PaddleObj(
   wire [10:0] _absY_T_2 = $signed(io_pos_1) - $signed(curPosY); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:25]
   wire [10:0] _absY_T_6 = 11'sh0 - $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:36]
   wire [10:0] absY = $signed(_absY_T_2) < 11'sh0 ? $signed(_absY_T_6) : $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:36]
-  assign io_inbound = $signed(absX) < 11'sh8 & $signed(absY) < 11'sh40; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 45:54]
+  assign io_inbound = $signed(absX) < 11'sh10 & $signed(absY) < 11'sh40; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 45:54]
   assign io_paddlePos_1 = curPosY; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 51:{26,26}]
+  assign io_sideX = diffX[10]; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 49:25]
   always @(posedge clock) begin
     if (reset) begin // @[\\src\\main\\scala\\vga\\PaddleObj.scala 18:24]
       curPosY <= 11'shf0; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 18:24]
@@ -115,7 +117,8 @@ module PaddleObj_1(
   input  [10:0] io_pos_1, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
   output        io_inbound, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
   output [10:0] io_paddlePos_1, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
-  input         io_updateLogic // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
+  input         io_updateLogic, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
+  output        io_sideX // @[\\src\\main\\scala\\vga\\PaddleObj.scala 15:14]
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -135,8 +138,9 @@ module PaddleObj_1(
   wire [10:0] _absY_T_2 = $signed(io_pos_1) - $signed(curPosY); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:25]
   wire [10:0] _absY_T_6 = 11'sh0 - $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:36]
   wire [10:0] absY = $signed(_absY_T_2) < 11'sh0 ? $signed(_absY_T_6) : $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:36]
-  assign io_inbound = $signed(absX) < 11'sh8 & $signed(absY) < 11'sh40; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 45:54]
+  assign io_inbound = $signed(absX) < 11'sh10 & $signed(absY) < 11'sh40; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 45:54]
   assign io_paddlePos_1 = curPosY; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 51:{26,26}]
+  assign io_sideX = diffX[10]; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 49:25]
   always @(posedge clock) begin
     if (reset) begin // @[\\src\\main\\scala\\vga\\PaddleObj.scala 18:24]
       curPosY <= 11'shf0; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 18:24]
@@ -212,14 +216,16 @@ endmodule
 module BallObj(
   input         clock,
   input         reset,
-  input  [10:0] io_pos_0, // @[\\src\\main\\scala\\vga\\Ball.scala 16:14]
-  input  [10:0] io_pos_1, // @[\\src\\main\\scala\\vga\\Ball.scala 16:14]
-  output        io_inbound, // @[\\src\\main\\scala\\vga\\Ball.scala 16:14]
-  input  [10:0] io_P1Pos_1, // @[\\src\\main\\scala\\vga\\Ball.scala 16:14]
-  input  [10:0] io_P2Pos_1, // @[\\src\\main\\scala\\vga\\Ball.scala 16:14]
-  input         io_updateLogic, // @[\\src\\main\\scala\\vga\\Ball.scala 16:14]
-  output        io_outLeftBound, // @[\\src\\main\\scala\\vga\\Ball.scala 16:14]
-  output        io_outRightBound // @[\\src\\main\\scala\\vga\\Ball.scala 16:14]
+  input  [10:0] io_pos_0, // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
+  input  [10:0] io_pos_1, // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
+  output        io_inbound, // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
+  input  [10:0] io_P1Pos_1, // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
+  input  [10:0] io_P2Pos_1, // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
+  input         io_updateLogic, // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
+  output        io_outLeftBound, // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
+  output        io_outRightBound, // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
+  output        io_sideX, // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
+  output        io_sideY // @[\\src\\main\\scala\\vga\\Ball.scala 18:14]
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -228,97 +234,94 @@ module BallObj(
   reg [31:0] _RAND_3;
   reg [31:0] _RAND_4;
 `endif // RANDOMIZE_REG_INIT
-  reg [10:0] ballSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 18:26]
-  reg [10:0] curPos_0; // @[\\src\\main\\scala\\vga\\Ball.scala 20:23]
-  reg [10:0] curPos_1; // @[\\src\\main\\scala\\vga\\Ball.scala 20:23]
-  reg [10:0] velocity_0; // @[\\src\\main\\scala\\vga\\Ball.scala 21:25]
-  reg [10:0] velocity_1; // @[\\src\\main\\scala\\vga\\Ball.scala 21:25]
-  wire [9:0] _velocity_1_T_3 = 10'sh1e0 - 10'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 26:97]
-  wire [10:0] _GEN_11 = {{1{_velocity_1_T_3[9]}},_velocity_1_T_3}; // @[\\src\\main\\scala\\vga\\Ball.scala 26:88]
-  wire [10:0] _velocity_1_T_7 = 11'sh0 - $signed(ballSpeed); // @[\\src\\main\\scala\\vga\\Ball.scala 26:127]
-  wire [10:0] _velocity_1_T_8 = $signed(curPos_1) > $signed(_GEN_11) ? $signed(_velocity_1_T_7) : $signed(velocity_1); // @[\\src\\main\\scala\\vga\\Ball.scala 26:77]
-  wire [10:0] _velocity_1_T_9 = $signed(curPos_1) < 11'sh8 ? $signed(ballSpeed) : $signed(_velocity_1_T_8); // @[\\src\\main\\scala\\vga\\Ball.scala 26:23]
-  wire [10:0] _curPos_0_T_2 = $signed(curPos_0) + $signed(velocity_0); // @[\\src\\main\\scala\\vga\\Ball.scala 27:28]
-  wire [10:0] _curPos_1_T_2 = $signed(curPos_1) + $signed(velocity_1); // @[\\src\\main\\scala\\vga\\Ball.scala 28:28]
-  wire [10:0] newYSpeed = velocity_1[0] ^ velocity_0[1] ? $signed(ballSpeed) : $signed(_velocity_1_T_7); // @[\\src\\main\\scala\\vga\\Ball.scala 30:24]
-  wire  goingLeft = $signed(velocity_0) < 11'sh0; // @[\\src\\main\\scala\\vga\\Ball.scala 33:33]
-  wire [10:0] _P1xOverlap_T_2 = 11'sh40 - 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 34:47]
-  wire [10:0] _P1xOverlap_T_5 = $signed(_P1xOverlap_T_2) - 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 34:76]
-  wire  P1xOverlap = $signed(curPos_0) > $signed(_P1xOverlap_T_5) & $signed(curPos_0) < 11'sh50; // @[\\src\\main\\scala\\vga\\Ball.scala 34:105]
-  wire [10:0] _P1yOverlap_T_2 = $signed(io_P1Pos_1) - 11'sh40; // @[\\src\\main\\scala\\vga\\Ball.scala 35:47]
-  wire [10:0] _P1yOverlap_T_5 = $signed(_P1yOverlap_T_2) - 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 35:77]
-  wire [10:0] _P1yOverlap_T_9 = $signed(io_P1Pos_1) + 11'sh40; // @[\\src\\main\\scala\\vga\\Ball.scala 35:134]
-  wire [10:0] _P1yOverlap_T_12 = $signed(_P1yOverlap_T_9) + 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 35:164]
-  wire  P1yOverlap = $signed(curPos_1) > $signed(_P1yOverlap_T_5) & $signed(curPos_1) < $signed(_P1yOverlap_T_12); // @[\\src\\main\\scala\\vga\\Ball.scala 35:106]
-  wire [10:0] _P2xOverlap_T_2 = 11'sh240 - 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 37:47]
-  wire [10:0] _P2xOverlap_T_5 = $signed(_P2xOverlap_T_2) - 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 37:76]
-  wire  P2xOverlap = $signed(curPos_0) > $signed(_P2xOverlap_T_5) & $signed(curPos_0) < 11'sh250; // @[\\src\\main\\scala\\vga\\Ball.scala 37:105]
-  wire [10:0] _P2yOverlap_T_2 = $signed(io_P2Pos_1) - 11'sh40; // @[\\src\\main\\scala\\vga\\Ball.scala 38:47]
-  wire [10:0] _P2yOverlap_T_5 = $signed(_P2yOverlap_T_2) - 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 38:77]
-  wire [10:0] _P2yOverlap_T_9 = $signed(io_P2Pos_1) + 11'sh40; // @[\\src\\main\\scala\\vga\\Ball.scala 38:134]
-  wire [10:0] _P2yOverlap_T_12 = $signed(_P2yOverlap_T_9) + 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 38:164]
-  wire  P2yOverlap = $signed(curPos_1) > $signed(_P2yOverlap_T_5) & $signed(curPos_1) < $signed(_P2yOverlap_T_12); // @[\\src\\main\\scala\\vga\\Ball.scala 38:106]
-  wire [10:0] _ballSpeed_T_2 = $signed(ballSpeed) + 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 46:30]
-  wire [10:0] left = $signed(curPos_0) - 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 51:26]
-  wire [10:0] right = $signed(curPos_0) + 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 52:26]
-  wire [10:0] top = $signed(curPos_1) - 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 53:26]
-  wire [10:0] bottom = $signed(curPos_1) + 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 54:26]
-  wire  inSquare = $signed(io_pos_0) > $signed(left) & $signed(io_pos_0) < $signed(right) & $signed(io_pos_1) > $signed(
-    top) & $signed(io_pos_1) < $signed(bottom); // @[\\src\\main\\scala\\vga\\Ball.scala 56:180]
-  wire [10:0] _inTopLeft_T_2 = $signed(curPos_0) - 11'sh4; // @[\\src\\main\\scala\\vga\\Ball.scala 57:46]
-  wire  _inTopLeft_T_3 = $signed(io_pos_0) < $signed(_inTopLeft_T_2); // @[\\src\\main\\scala\\vga\\Ball.scala 57:34]
-  wire [10:0] _inTopLeft_T_6 = $signed(curPos_1) - 11'sh4; // @[\\src\\main\\scala\\vga\\Ball.scala 57:103]
-  wire  _inTopLeft_T_7 = $signed(io_pos_1) < $signed(_inTopLeft_T_6); // @[\\src\\main\\scala\\vga\\Ball.scala 57:91]
-  wire  inTopLeft = $signed(io_pos_0) < $signed(_inTopLeft_T_2) & $signed(io_pos_1) < $signed(_inTopLeft_T_6); // @[\\src\\main\\scala\\vga\\Ball.scala 57:77]
-  wire [10:0] _inTopRight_T_2 = $signed(curPos_0) + 11'sh4; // @[\\src\\main\\scala\\vga\\Ball.scala 58:46]
-  wire  _inTopRight_T_3 = $signed(io_pos_0) > $signed(_inTopRight_T_2); // @[\\src\\main\\scala\\vga\\Ball.scala 58:34]
-  wire  inTopRight = $signed(io_pos_0) > $signed(_inTopRight_T_2) & _inTopLeft_T_7; // @[\\src\\main\\scala\\vga\\Ball.scala 58:77]
-  wire [10:0] _inBottomLeft_T_6 = $signed(curPos_1) + 11'sh4; // @[\\src\\main\\scala\\vga\\Ball.scala 59:103]
-  wire  _inBottomLeft_T_7 = $signed(io_pos_1) > $signed(_inBottomLeft_T_6); // @[\\src\\main\\scala\\vga\\Ball.scala 59:91]
-  wire  inBottomLeft = _inTopLeft_T_3 & $signed(io_pos_1) > $signed(_inBottomLeft_T_6); // @[\\src\\main\\scala\\vga\\Ball.scala 59:77]
-  wire  inBottomRight = _inTopRight_T_3 & _inBottomLeft_T_7; // @[\\src\\main\\scala\\vga\\Ball.scala 60:77]
-  wire  inDiamond = ~(inTopLeft | inTopRight | inBottomLeft | inBottomRight); // @[\\src\\main\\scala\\vga\\Ball.scala 62:19]
-  assign io_inbound = inSquare & inDiamond; // @[\\src\\main\\scala\\vga\\Ball.scala 64:26]
-  assign io_outLeftBound = $signed(curPos_0) < 11'sh0; // @[\\src\\main\\scala\\vga\\Ball.scala 68:32]
-  assign io_outRightBound = $signed(curPos_0) > 11'sh280; // @[\\src\\main\\scala\\vga\\Ball.scala 67:33]
+  reg [10:0] ballSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 20:26]
+  reg [10:0] curPos_0; // @[\\src\\main\\scala\\vga\\Ball.scala 22:23]
+  reg [10:0] curPos_1; // @[\\src\\main\\scala\\vga\\Ball.scala 22:23]
+  reg [10:0] velocity_0; // @[\\src\\main\\scala\\vga\\Ball.scala 23:25]
+  reg [10:0] velocity_1; // @[\\src\\main\\scala\\vga\\Ball.scala 23:25]
+  wire [9:0] _velocity_1_T_3 = 10'sh1e0 - 10'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 28:97]
+  wire [10:0] _GEN_11 = {{1{_velocity_1_T_3[9]}},_velocity_1_T_3}; // @[\\src\\main\\scala\\vga\\Ball.scala 28:88]
+  wire [10:0] _velocity_1_T_7 = 11'sh0 - $signed(ballSpeed); // @[\\src\\main\\scala\\vga\\Ball.scala 28:127]
+  wire [10:0] _velocity_1_T_8 = $signed(curPos_1) > $signed(_GEN_11) ? $signed(_velocity_1_T_7) : $signed(velocity_1); // @[\\src\\main\\scala\\vga\\Ball.scala 28:77]
+  wire [10:0] _velocity_1_T_9 = $signed(curPos_1) < 11'sh8 ? $signed(ballSpeed) : $signed(_velocity_1_T_8); // @[\\src\\main\\scala\\vga\\Ball.scala 28:23]
+  wire [10:0] _curPos_0_T_2 = $signed(curPos_0) + $signed(velocity_0); // @[\\src\\main\\scala\\vga\\Ball.scala 29:28]
+  wire [10:0] _curPos_1_T_2 = $signed(curPos_1) + $signed(velocity_1); // @[\\src\\main\\scala\\vga\\Ball.scala 30:28]
+  wire [10:0] newYSpeed = velocity_1[0] ^ velocity_0[1] ? $signed(ballSpeed) : $signed(_velocity_1_T_7); // @[\\src\\main\\scala\\vga\\Ball.scala 32:24]
+  wire  goingLeft = $signed(velocity_0) < 11'sh0; // @[\\src\\main\\scala\\vga\\Ball.scala 35:33]
+  wire [8:0] _rightPaddledist_T = 3'sh2 * 6'sh10; // @[\\src\\main\\scala\\vga\\Ball.scala 36:72]
+  wire [8:0] _rightPaddledist_T_3 = 9'sh40 + $signed(_rightPaddledist_T); // @[\\src\\main\\scala\\vga\\Ball.scala 36:67]
+  wire [8:0] _rightPaddledist_T_6 = $signed(_rightPaddledist_T_3) + 9'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 36:100]
+  wire [10:0] _GEN_12 = {{2{_rightPaddledist_T_6[8]}},_rightPaddledist_T_6}; // @[\\src\\main\\scala\\vga\\Ball.scala 36:34]
+  wire [10:0] _rightPaddledist_T_9 = 11'sh280 - $signed(_GEN_12); // @[\\src\\main\\scala\\vga\\Ball.scala 36:34]
+  wire [10:0] rightPaddledist = $signed(_rightPaddledist_T_9) - $signed(curPos_0); // @[\\src\\main\\scala\\vga\\Ball.scala 36:130]
+  wire [10:0] leftPaddledist = $signed(curPos_0) - $signed(_GEN_12); // @[\\src\\main\\scala\\vga\\Ball.scala 37:36]
+  wire [6:0] _T_2 = 7'sh0 - 7'sh30; // @[\\src\\main\\scala\\vga\\Ball.scala 38:41]
+  wire [10:0] _GEN_14 = {{4{_T_2[6]}},_T_2}; // @[\\src\\main\\scala\\vga\\Ball.scala 38:39]
+  wire [10:0] _T_9 = $signed(io_P1Pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 38:145]
+  wire [10:0] _T_13 = 11'sh0 - $signed(_T_9); // @[\\src\\main\\scala\\vga\\Ball.scala 38:158]
+  wire [10:0] _T_14 = $signed(_T_9) < 11'sh0 ? $signed(_T_13) : $signed(_T_9); // @[\\src\\main\\scala\\vga\\Ball.scala 38:158]
+  wire [10:0] _T_30 = $signed(io_P2Pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 41:155]
+  wire [10:0] _T_34 = 11'sh0 - $signed(_T_30); // @[\\src\\main\\scala\\vga\\Ball.scala 41:168]
+  wire [10:0] _T_35 = $signed(_T_30) < 11'sh0 ? $signed(_T_34) : $signed(_T_30); // @[\\src\\main\\scala\\vga\\Ball.scala 41:168]
+  wire [10:0] _ballSpeed_T_2 = $signed(ballSpeed) + 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 44:30]
+  wire [10:0] diffX = $signed(io_pos_0) - $signed(curPos_0); // @[\\src\\main\\scala\\vga\\Ball.scala 49:25]
+  wire [10:0] diffY = $signed(io_pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 50:25]
+  wire [10:0] _absX_T_3 = 11'sh0 - $signed(diffX); // @[\\src\\main\\scala\\vga\\Ball.scala 51:20]
+  wire [10:0] absX = $signed(diffX) < 11'sh0 ? $signed(_absX_T_3) : $signed(diffX); // @[\\src\\main\\scala\\vga\\Ball.scala 51:20]
+  wire [10:0] _absY_T_3 = 11'sh0 - $signed(diffY); // @[\\src\\main\\scala\\vga\\Ball.scala 52:20]
+  wire [10:0] absY = $signed(diffY) < 11'sh0 ? $signed(_absY_T_3) : $signed(diffY); // @[\\src\\main\\scala\\vga\\Ball.scala 52:20]
+  wire  inSquare = $signed(absX) < 11'sh8 & $signed(absY) < 11'sh8; // @[\\src\\main\\scala\\vga\\Ball.scala 53:53]
+  wire [10:0] _inDiamond_T_2 = $signed(absX) + $signed(absY); // @[\\src\\main\\scala\\vga\\Ball.scala 54:24]
+  wire  inDiamond = $signed(_inDiamond_T_2) < 11'shb; // @[\\src\\main\\scala\\vga\\Ball.scala 54:31]
+  assign io_inbound = inSquare & inDiamond; // @[\\src\\main\\scala\\vga\\Ball.scala 56:26]
+  assign io_outLeftBound = $signed(curPos_0) < 11'sh0; // @[\\src\\main\\scala\\vga\\Ball.scala 62:32]
+  assign io_outRightBound = $signed(curPos_0) > 11'sh280; // @[\\src\\main\\scala\\vga\\Ball.scala 61:33]
+  assign io_sideX = diffX[10]; // @[\\src\\main\\scala\\vga\\Ball.scala 57:25]
+  assign io_sideY = diffY[10]; // @[\\src\\main\\scala\\vga\\Ball.scala 58:25]
   always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 18:26]
-      ballSpeed <= 11'sh2; // @[\\src\\main\\scala\\vga\\Ball.scala 18:26]
-    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 24:24]
-      if (!(goingLeft & (P1xOverlap & P1yOverlap))) begin // @[\\src\\main\\scala\\vga\\Ball.scala 40:51]
-        if (~goingLeft & (P2xOverlap & P2yOverlap)) begin // @[\\src\\main\\scala\\vga\\Ball.scala 43:58]
-          ballSpeed <= _ballSpeed_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 46:17]
+    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 20:26]
+      ballSpeed <= 11'sh2; // @[\\src\\main\\scala\\vga\\Ball.scala 20:26]
+    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 26:24]
+      if (!(goingLeft & $signed(leftPaddledist) > $signed(_GEN_14) & $signed(leftPaddledist) < 11'sh0 & $signed(_T_14)
+         < 11'sh48)) begin // @[\\src\\main\\scala\\vga\\Ball.scala 38:222]
+        if (~goingLeft & $signed(rightPaddledist) > $signed(_GEN_14) & $signed(rightPaddledist) < 11'sh0 & $signed(_T_35
+          ) < 11'sh48) begin // @[\\src\\main\\scala\\vga\\Ball.scala 41:232]
+          ballSpeed <= _ballSpeed_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 44:17]
         end
       end
     end
-    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 20:23]
-      curPos_0 <= 11'sh140; // @[\\src\\main\\scala\\vga\\Ball.scala 20:23]
-    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 24:24]
-      curPos_0 <= _curPos_0_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 27:15]
+    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 22:23]
+      curPos_0 <= 11'sh140; // @[\\src\\main\\scala\\vga\\Ball.scala 22:23]
+    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 26:24]
+      curPos_0 <= _curPos_0_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 29:15]
     end
-    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 20:23]
-      curPos_1 <= 11'shf0; // @[\\src\\main\\scala\\vga\\Ball.scala 20:23]
-    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 24:24]
-      curPos_1 <= _curPos_1_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 28:15]
+    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 22:23]
+      curPos_1 <= 11'shf0; // @[\\src\\main\\scala\\vga\\Ball.scala 22:23]
+    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 26:24]
+      curPos_1 <= _curPos_1_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 30:15]
     end
-    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 21:25]
-      velocity_0 <= 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 21:25]
-    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 24:24]
-      if (goingLeft & (P1xOverlap & P1yOverlap)) begin // @[\\src\\main\\scala\\vga\\Ball.scala 40:51]
-        velocity_0 <= ballSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 41:19]
-      end else if (~goingLeft & (P2xOverlap & P2yOverlap)) begin // @[\\src\\main\\scala\\vga\\Ball.scala 43:58]
-        velocity_0 <= _velocity_1_T_7; // @[\\src\\main\\scala\\vga\\Ball.scala 44:19]
+    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 23:25]
+      velocity_0 <= 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 23:25]
+    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 26:24]
+      if (goingLeft & $signed(leftPaddledist) > $signed(_GEN_14) & $signed(leftPaddledist) < 11'sh0 & $signed(_T_14) < 11'sh48
+        ) begin // @[\\src\\main\\scala\\vga\\Ball.scala 38:222]
+        velocity_0 <= ballSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 39:19]
+      end else if (~goingLeft & $signed(rightPaddledist) > $signed(_GEN_14) & $signed(rightPaddledist) < 11'sh0 &
+        $signed(_T_35) < 11'sh48) begin // @[\\src\\main\\scala\\vga\\Ball.scala 41:232]
+        velocity_0 <= _velocity_1_T_7; // @[\\src\\main\\scala\\vga\\Ball.scala 42:19]
       end
     end
-    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 21:25]
-      velocity_1 <= 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 21:25]
-    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 24:24]
-      if (goingLeft & (P1xOverlap & P1yOverlap)) begin // @[\\src\\main\\scala\\vga\\Ball.scala 40:51]
-        velocity_1 <= newYSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 42:19]
-      end else if (~goingLeft & (P2xOverlap & P2yOverlap)) begin // @[\\src\\main\\scala\\vga\\Ball.scala 43:58]
-        velocity_1 <= newYSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 45:19]
+    if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 23:25]
+      velocity_1 <= 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 23:25]
+    end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 26:24]
+      if (goingLeft & $signed(leftPaddledist) > $signed(_GEN_14) & $signed(leftPaddledist) < 11'sh0 & $signed(_T_14) < 11'sh48
+        ) begin // @[\\src\\main\\scala\\vga\\Ball.scala 38:222]
+        velocity_1 <= newYSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 40:19]
+      end else if (~goingLeft & $signed(rightPaddledist) > $signed(_GEN_14) & $signed(rightPaddledist) < 11'sh0 &
+        $signed(_T_35) < 11'sh48) begin // @[\\src\\main\\scala\\vga\\Ball.scala 41:232]
+        velocity_1 <= newYSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 43:19]
       end else begin
-        velocity_1 <= _velocity_1_T_9; // @[\\src\\main\\scala\\vga\\Ball.scala 26:17]
+        velocity_1 <= _velocity_1_T_9; // @[\\src\\main\\scala\\vga\\Ball.scala 28:17]
       end
     end
   end
@@ -378,45 +381,64 @@ end // initial
 endmodule
 module GraphicsProcessor(
   input         clock,
-  output [1:0]  io_col_R, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  output [1:0]  io_col_G, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  output [1:0]  io_col_B, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input  [10:0] io_indexX, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input  [10:0] io_indexY, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input         io_input1, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input         io_input2, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input         io_screenDone // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
+  output [1:0]  io_col_R, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  output [1:0]  io_col_G, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  output [1:0]  io_col_B, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input  [10:0] io_indexX, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input  [10:0] io_indexY, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input         io_input1, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input         io_input2, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input         io_screenDone // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
 );
-  wire  P1_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P1_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P1_io_input; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire [10:0] P1_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire [10:0] P1_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P1_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire [10:0] P1_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P1_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P2_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  P2_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  P2_io_input; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire [10:0] P2_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire [10:0] P2_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  P2_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire [10:0] P2_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  P2_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  Ball_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [10:0] Ball_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [10:0] Ball_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [10:0] Ball_io_P1Pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [10:0] Ball_io_P2Pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_io_outLeftBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [1:0] _GEN_1 = Ball_io_inbound ? 2'h3 : 2'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 87:32 89:14 94:14]
-  wire [1:0] _GEN_3 = P2_io_inbound ? 2'h3 : _GEN_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 81:30 84:14]
-  wire [1:0] _GEN_4 = P2_io_inbound ? 2'h0 : _GEN_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 81:30 86:14]
-  PaddleObj P1 ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
+  wire  P1_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P1_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P1_io_input; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire [10:0] P1_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire [10:0] P1_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P1_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire [10:0] P1_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P1_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P1_io_sideX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P2_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  P2_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  P2_io_input; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire [10:0] P2_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire [10:0] P2_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  P2_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire [10:0] P2_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  P2_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  P2_io_sideX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  Ball_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire [10:0] Ball_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire [10:0] Ball_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire [10:0] Ball_io_P1Pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire [10:0] Ball_io_P2Pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_outLeftBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_sideX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_sideY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  _dithered_T_2 = io_indexX[2] ^ io_indexY[2]; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 58:32]
+  wire  dithered = (io_indexX[2] ^ io_indexY[2]) & io_indexX[1] & io_indexY[1]; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 58:66]
+  wire  circleShadow = Ball_io_sideX & Ball_io_sideY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 59:36]
+  wire [1:0] _io_col_R_T = {dithered,1'h0}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 62:20]
+  wire [1:0] _io_col_R_T_2 = ~P1_io_sideX ? 2'h3 : 2'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 62:41]
+  wire [1:0] _io_col_R_T_3 = _io_col_R_T | _io_col_R_T_2; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 62:35]
+  wire [1:0] _io_col_G_T_1 = P2_io_sideX ? 2'h3 : 2'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 67:41]
+  wire [1:0] _io_col_G_T_2 = _io_col_R_T | _io_col_G_T_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 67:35]
+  wire [1:0] _io_col_G_T_4 = circleShadow ? 2'h3 : 2'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 71:41]
+  wire [1:0] _io_col_G_T_5 = _io_col_R_T | _io_col_G_T_4; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 71:35]
+  wire  _io_col_G_T_12 = io_indexX[4] ^ io_indexY[4] ^ (io_indexX[1] ^ io_indexY[1]); // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 76:47]
+  wire  _io_col_B_T_9 = io_indexX[3] ^ io_indexY[3] ^ (io_indexX[0] ^ io_indexY[0]); // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 77:47]
+  wire  _GEN_0 = Ball_io_inbound ? 1'h0 : io_indexX[5] ^ io_indexY[5] ^ _dithered_T_2; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 69:32 70:14 75:14]
+  wire [1:0] _GEN_1 = Ball_io_inbound ? _io_col_G_T_5 : {{1'd0}, _io_col_G_T_12}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 69:32 71:14 76:14]
+  wire [1:0] _GEN_2 = Ball_io_inbound ? _io_col_G_T_5 : {{1'd0}, _io_col_B_T_9}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 69:32 72:14 77:14]
+  wire  _GEN_3 = P2_io_inbound ? 1'h0 : _GEN_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 65:30 66:14]
+  wire [1:0] _GEN_4 = P2_io_inbound ? _io_col_G_T_2 : _GEN_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 65:30 67:14]
+  wire [1:0] _GEN_5 = P2_io_inbound ? 2'h0 : _GEN_2; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 65:30 68:14]
+  PaddleObj P1 ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
     .clock(P1_clock),
     .reset(P1_reset),
     .io_input(P1_io_input),
@@ -424,9 +446,10 @@ module GraphicsProcessor(
     .io_pos_1(P1_io_pos_1),
     .io_inbound(P1_io_inbound),
     .io_paddlePos_1(P1_io_paddlePos_1),
-    .io_updateLogic(P1_io_updateLogic)
+    .io_updateLogic(P1_io_updateLogic),
+    .io_sideX(P1_io_sideX)
   );
-  PaddleObj_1 P2 ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
+  PaddleObj_1 P2 ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
     .clock(P2_clock),
     .reset(P2_reset),
     .io_input(P2_io_input),
@@ -434,9 +457,10 @@ module GraphicsProcessor(
     .io_pos_1(P2_io_pos_1),
     .io_inbound(P2_io_inbound),
     .io_paddlePos_1(P2_io_paddlePos_1),
-    .io_updateLogic(P2_io_updateLogic)
+    .io_updateLogic(P2_io_updateLogic),
+    .io_sideX(P2_io_sideX)
   );
-  BallObj Ball ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
+  BallObj Ball ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
     .clock(Ball_clock),
     .reset(Ball_reset),
     .io_pos_0(Ball_io_pos_0),
@@ -446,30 +470,32 @@ module GraphicsProcessor(
     .io_P2Pos_1(Ball_io_P2Pos_1),
     .io_updateLogic(Ball_io_updateLogic),
     .io_outLeftBound(Ball_io_outLeftBound),
-    .io_outRightBound(Ball_io_outRightBound)
+    .io_outRightBound(Ball_io_outRightBound),
+    .io_sideX(Ball_io_sideX),
+    .io_sideY(Ball_io_sideY)
   );
-  assign io_col_R = P1_io_inbound ? 2'h3 : 2'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 75:24 78:14]
-  assign io_col_G = P1_io_inbound ? 2'h0 : _GEN_3; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 75:24 79:14]
-  assign io_col_B = P1_io_inbound ? 2'h0 : _GEN_4; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 75:24 80:14]
+  assign io_col_R = P1_io_inbound ? _io_col_R_T_3 : {{1'd0}, _GEN_3}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 61:24 62:14]
+  assign io_col_G = P1_io_inbound ? 2'h0 : _GEN_4; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 61:24 63:14]
+  assign io_col_B = P1_io_inbound ? 2'h0 : _GEN_5; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 61:24 64:14]
   assign P1_clock = clock;
-  assign P1_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 53:46]
-  assign P1_io_input = io_input1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 37:15]
-  assign P1_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:36]
-  assign P1_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:53]
-  assign P1_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 39:21]
+  assign P1_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 52:46]
+  assign P1_io_input = io_input1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:15]
+  assign P1_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:36]
+  assign P1_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:53]
+  assign P1_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:21]
   assign P2_clock = clock;
-  assign P2_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 53:46]
-  assign P2_io_input = io_input2; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 42:15]
-  assign P2_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:36]
-  assign P2_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:53]
-  assign P2_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 44:21]
+  assign P2_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 52:46]
+  assign P2_io_input = io_input2; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:15]
+  assign P2_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:36]
+  assign P2_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:53]
+  assign P2_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 43:21]
   assign Ball_clock = clock;
-  assign Ball_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 53:46]
-  assign Ball_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:36]
-  assign Ball_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:53]
-  assign Ball_io_P1Pos_1 = P1_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 47:17]
-  assign Ball_io_P2Pos_1 = P2_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 48:17]
-  assign Ball_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 50:23]
+  assign Ball_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 52:46]
+  assign Ball_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:36]
+  assign Ball_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:53]
+  assign Ball_io_P1Pos_1 = P1_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:17]
+  assign Ball_io_P2Pos_1 = P2_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 47:17]
+  assign Ball_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 49:23]
 endmodule
 module GraphicsManager(
   input        clock,
@@ -528,22 +554,22 @@ module VGAModule(
   reg [31:0] _RAND_0;
   reg [31:0] _RAND_1;
 `endif // RANDOMIZE_REG_INIT
-  wire  graphics_clock; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
-  wire [1:0] graphics_io_col_R; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
-  wire [1:0] graphics_io_col_G; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
-  wire [1:0] graphics_io_col_B; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
-  wire [9:0] graphics_io_indexX; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
-  wire [9:0] graphics_io_indexY; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
-  wire  graphics_io_screenDone; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
-  wire  graphics_io_input1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
-  wire  graphics_io_input2; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
+  wire  graphics_clock; // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
+  wire [1:0] graphics_io_col_R; // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
+  wire [1:0] graphics_io_col_G; // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
+  wire [1:0] graphics_io_col_B; // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
+  wire [9:0] graphics_io_indexX; // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
+  wire [9:0] graphics_io_indexY; // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
+  wire  graphics_io_screenDone; // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
+  wire  graphics_io_input1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
+  wire  graphics_io_input2; // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
   reg [9:0] hCounter; // @[src/main/scala/chisel3/util/Counter.scala 61:40]
   wire  wrap_wrap = hCounter == 10'h31f; // @[src/main/scala/chisel3/util/Counter.scala 73:24]
   wire [9:0] _wrap_value_T_1 = hCounter + 10'h1; // @[src/main/scala/chisel3/util/Counter.scala 77:24]
   reg [9:0] vCounter; // @[src/main/scala/chisel3/util/Counter.scala 61:40]
   wire  wrap_wrap_1 = vCounter == 10'h20c; // @[src/main/scala/chisel3/util/Counter.scala 73:24]
   wire [9:0] _wrap_value_T_3 = vCounter + 10'h1; // @[src/main/scala/chisel3/util/Counter.scala 77:24]
-  GraphicsManager graphics ( // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
+  GraphicsManager graphics ( // @[\\src\\main\\scala\\vga\\VGAModule.scala 27:24]
     .clock(graphics_clock),
     .io_col_R(graphics_io_col_R),
     .io_col_G(graphics_io_col_G),
@@ -554,17 +580,17 @@ module VGAModule(
     .io_input1(graphics_io_input1),
     .io_input2(graphics_io_input2)
   );
-  assign io_col_R = graphics_io_col_R; // @[\\src\\main\\scala\\vga\\VGAModule.scala 34:12]
-  assign io_col_G = graphics_io_col_G; // @[\\src\\main\\scala\\vga\\VGAModule.scala 35:12]
-  assign io_col_B = graphics_io_col_B; // @[\\src\\main\\scala\\vga\\VGAModule.scala 36:12]
-  assign io_hsync = hCounter > 10'h28f & hCounter < 10'h2f0 ? 1'h0 : 1'h1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 39:18]
-  assign io_vsync = vCounter > 10'h1e9 & vCounter < 10'h1ec ? 1'h0 : 1'h1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 40:18]
+  assign io_col_R = graphics_io_col_R; // @[\\src\\main\\scala\\vga\\VGAModule.scala 35:12]
+  assign io_col_G = graphics_io_col_G; // @[\\src\\main\\scala\\vga\\VGAModule.scala 36:12]
+  assign io_col_B = graphics_io_col_B; // @[\\src\\main\\scala\\vga\\VGAModule.scala 37:12]
+  assign io_hsync = hCounter > 10'h28f & hCounter < 10'h2f0 ? 1'h0 : 1'h1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 40:18]
+  assign io_vsync = vCounter > 10'h1e9 & vCounter < 10'h1ec ? 1'h0 : 1'h1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 41:18]
   assign graphics_clock = clock;
-  assign graphics_io_indexX = hCounter; // @[\\src\\main\\scala\\vga\\VGAModule.scala 29:22]
-  assign graphics_io_indexY = vCounter; // @[\\src\\main\\scala\\vga\\VGAModule.scala 30:22]
+  assign graphics_io_indexX = hCounter; // @[\\src\\main\\scala\\vga\\VGAModule.scala 30:22]
+  assign graphics_io_indexY = vCounter; // @[\\src\\main\\scala\\vga\\VGAModule.scala 31:22]
   assign graphics_io_screenDone = wrap_wrap & wrap_wrap_1; // @[src/main/scala/chisel3/util/Counter.scala 118:{16,23} 117:24]
-  assign graphics_io_input1 = io_input1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 32:22]
-  assign graphics_io_input2 = io_input2; // @[\\src\\main\\scala\\vga\\VGAModule.scala 33:22]
+  assign graphics_io_input1 = io_input1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 33:22]
+  assign graphics_io_input2 = io_input2; // @[\\src\\main\\scala\\vga\\VGAModule.scala 34:22]
   always @(posedge clock) begin
     if (reset) begin // @[src/main/scala/chisel3/util/Counter.scala 61:40]
       hCounter <= 10'h0; // @[src/main/scala/chisel3/util/Counter.scala 61:40]
@@ -631,7 +657,6 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
-
 
 
 
