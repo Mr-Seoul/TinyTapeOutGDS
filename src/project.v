@@ -97,10 +97,7 @@ module PaddleObj(
   wire [10:0] _absY_T_2 = $signed(io_pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 40:25]
   wire [10:0] _absY_T_6 = 11'sh0 - $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 40:38]
   wire [10:0] absY = $signed(_absY_T_2) < 11'sh0 ? $signed(_absY_T_6) : $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 40:38]
-  wire  inSquare = $signed(absX) < 11'sha & $signed(absY) < 11'sh28; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 42:54]
-  wire [10:0] _inDiamond_T_2 = $signed(absX) + $signed(absY); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:24]
-  wire  inDiamond = $signed(_inDiamond_T_2) < 11'sh2d; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:31]
-  assign io_inbound = inSquare & inDiamond; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 45:26]
+  assign io_inbound = $signed(absX) < 11'sha & $signed(absY) < 11'sh28; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 42:54]
   assign io_paddlePos_1 = curPos_1; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 47:16]
   always @(posedge clock) begin
     if (reset) begin // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:23]
@@ -202,10 +199,7 @@ module PaddleObj_1(
   wire [10:0] _absY_T_2 = $signed(io_pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 40:25]
   wire [10:0] _absY_T_6 = 11'sh0 - $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 40:38]
   wire [10:0] absY = $signed(_absY_T_2) < 11'sh0 ? $signed(_absY_T_6) : $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 40:38]
-  wire  inSquare = $signed(absX) < 11'sha & $signed(absY) < 11'sh28; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 42:54]
-  wire [10:0] _inDiamond_T_2 = $signed(absX) + $signed(absY); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:24]
-  wire  inDiamond = $signed(_inDiamond_T_2) < 11'sh2d; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 43:31]
-  assign io_inbound = inSquare & inDiamond; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 45:26]
+  assign io_inbound = $signed(absX) < 11'sha & $signed(absY) < 11'sh28; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 42:54]
   assign io_paddlePos_1 = curPos_1; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 47:16]
   always @(posedge clock) begin
     if (reset) begin // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:23]
@@ -334,10 +328,7 @@ module BallObj(
   wire [10:0] _absY_T_2 = $signed(io_pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 53:25]
   wire [10:0] _absY_T_6 = 11'sh0 - $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\Ball.scala 53:38]
   wire [10:0] absY = $signed(_absY_T_2) < 11'sh0 ? $signed(_absY_T_6) : $signed(_absY_T_2); // @[\\src\\main\\scala\\vga\\Ball.scala 53:38]
-  wire  inSquare = $signed(absX) < 11'sha & $signed(absY) < 11'sha; // @[\\src\\main\\scala\\vga\\Ball.scala 54:53]
-  wire [10:0] _inDiamond_T_2 = $signed(absX) + $signed(absY); // @[\\src\\main\\scala\\vga\\Ball.scala 55:24]
-  wire  inDiamond = $signed(_inDiamond_T_2) < 11'shf; // @[\\src\\main\\scala\\vga\\Ball.scala 55:31]
-  assign io_inbound = inSquare & inDiamond; // @[\\src\\main\\scala\\vga\\Ball.scala 57:26]
+  assign io_inbound = $signed(absX) < 11'sha & $signed(absY) < 11'sha; // @[\\src\\main\\scala\\vga\\Ball.scala 54:53]
   assign io_outLeftBound = outLeftBound; // @[\\src\\main\\scala\\vga\\Ball.scala 60:19]
   assign io_outRightBound = outRightBound; // @[\\src\\main\\scala\\vga\\Ball.scala 59:20]
   always @(posedge clock) begin
@@ -732,6 +723,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+
 
 
 
