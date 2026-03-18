@@ -7,67 +7,9 @@
 
 module ClockModule(
   input   clock,
-  input   reset,
   output  io_clk // @[\\src\\main\\scala\\vga\\ClockModule.scala 12:14]
 );
-`ifdef RANDOMIZE_REG_INIT
-  reg [31:0] _RAND_0;
-`endif // RANDOMIZE_REG_INIT
-  reg [1:0] clockCount; // @[\\src\\main\\scala\\vga\\ClockModule.scala 14:27]
-  wire [1:0] _clockCount_T_1 = clockCount + 2'h1; // @[\\src\\main\\scala\\vga\\ClockModule.scala 15:28]
-  assign io_clk = clockCount == 2'h3; // @[\\src\\main\\scala\\vga\\ClockModule.scala 16:25]
-  always @(posedge clock) begin
-    if (reset) begin // @[\\src\\main\\scala\\vga\\ClockModule.scala 14:27]
-      clockCount <= 2'h0; // @[\\src\\main\\scala\\vga\\ClockModule.scala 14:27]
-    end else begin
-      clockCount <= _clockCount_T_1; // @[\\src\\main\\scala\\vga\\ClockModule.scala 15:14]
-    end
-  end
-// Register and memory initialization
-`ifdef RANDOMIZE_GARBAGE_ASSIGN
-`define RANDOMIZE
-`endif
-`ifdef RANDOMIZE_INVALID_ASSIGN
-`define RANDOMIZE
-`endif
-`ifdef RANDOMIZE_REG_INIT
-`define RANDOMIZE
-`endif
-`ifdef RANDOMIZE_MEM_INIT
-`define RANDOMIZE
-`endif
-`ifndef RANDOM
-`define RANDOM $random
-`endif
-`ifdef RANDOMIZE_MEM_INIT
-  integer initvar;
-`endif
-`ifndef SYNTHESIS
-`ifdef FIRRTL_BEFORE_INITIAL
-`FIRRTL_BEFORE_INITIAL
-`endif
-initial begin
-  `ifdef RANDOMIZE
-    `ifdef INIT_RANDOM
-      `INIT_RANDOM
-    `endif
-    `ifndef VERILATOR
-      `ifdef RANDOMIZE_DELAY
-        #`RANDOMIZE_DELAY begin end
-      `else
-        #0.002 begin end
-      `endif
-    `endif
-`ifdef RANDOMIZE_REG_INIT
-  _RAND_0 = {1{`RANDOM}};
-  clockCount = _RAND_0[1:0];
-`endif // RANDOMIZE_REG_INIT
-  `endif // RANDOMIZE
-end // initial
-`ifdef FIRRTL_AFTER_INITIAL
-`FIRRTL_AFTER_INITIAL
-`endif
-`endif // SYNTHESIS
+  assign io_clk = clock; // @[\\src\\main\\scala\\vga\\ClockModule.scala 16:19]
 endmodule
 module PaddleObj(
   input         clock,
@@ -632,7 +574,6 @@ module VGAModule(
   reg [31:0] _RAND_1;
 `endif // RANDOMIZE_REG_INIT
   wire  slowClock_clock; // @[\\src\\main\\scala\\vga\\VGAModule.scala 20:25]
-  wire  slowClock_reset; // @[\\src\\main\\scala\\vga\\VGAModule.scala 20:25]
   wire  slowClock_io_clk; // @[\\src\\main\\scala\\vga\\VGAModule.scala 20:25]
   wire  graphics_clock; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
   wire [1:0] graphics_io_col_R; // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
@@ -653,7 +594,6 @@ module VGAModule(
   wire [9:0] _wrap_value_T_3 = vCounter + 10'h1; // @[src/main/scala/chisel3/util/Counter.scala 77:24]
   ClockModule slowClock ( // @[\\src\\main\\scala\\vga\\VGAModule.scala 20:25]
     .clock(slowClock_clock),
-    .reset(slowClock_reset),
     .io_clk(slowClock_io_clk)
   );
   GraphicsManager graphics ( // @[\\src\\main\\scala\\vga\\VGAModule.scala 26:24]
@@ -673,7 +613,6 @@ module VGAModule(
   assign io_hsync = hCounter > 10'h28f & hCounter < 10'h2f0 ? 1'h0 : 1'h1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 39:18]
   assign io_vsync = vCounter > 10'h1e9 & vCounter < 10'h1ec ? 1'h0 : 1'h1; // @[\\src\\main\\scala\\vga\\VGAModule.scala 40:18]
   assign slowClock_clock = clock;
-  assign slowClock_reset = reset;
   assign graphics_clock = clock;
   assign graphics_io_indexX = hCounter; // @[\\src\\main\\scala\\vga\\VGAModule.scala 29:22]
   assign graphics_io_indexY = vCounter; // @[\\src\\main\\scala\\vga\\VGAModule.scala 30:22]
@@ -748,6 +687,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+
 
 
 
