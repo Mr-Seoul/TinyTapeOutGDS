@@ -685,7 +685,7 @@ module tt_um_example (
 
     VGAModule VGA (
         .clock(clk),
-        .reset(rst_n),
+         .reset(~rst_n),
         .io_col_R(uo_out[1:0]),
         .io_col_G(uo_out[3:2]),
         .io_col_B(uo_out[5:4]),
