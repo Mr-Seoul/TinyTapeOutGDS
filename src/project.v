@@ -461,48 +461,49 @@ end // initial
 endmodule
 module GraphicsProcessor(
   input         clock,
-  output [1:0]  io_col_R, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  output [1:0]  io_col_G, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  output [1:0]  io_col_B, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input  [10:0] io_indexX, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input  [10:0] io_indexY, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input         io_input1, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input         io_input2, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
-  input         io_screenDone // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:14]
+  output [1:0]  io_col_R, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  output [1:0]  io_col_G, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  output [1:0]  io_col_B, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input  [10:0] io_indexX, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input  [10:0] io_indexY, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input         io_input1, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input         io_input2, // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
+  input         io_screenDone // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 31:14]
 );
-  wire  P1_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P1_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P1_io_input; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire [10:0] P1_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire [10:0] P1_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P1_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire [10:0] P1_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P1_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
-  wire  P2_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  P2_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  P2_io_input; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire [10:0] P2_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire [10:0] P2_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  P2_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire [10:0] P2_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  P2_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
-  wire  Ball_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [10:0] Ball_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [10:0] Ball_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [10:0] Ball_io_P1Pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [10:0] Ball_io_P2Pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_io_outLeftBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire  Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
-  wire [1:0] _io_col_R_T = P1_io_inbound ? 2'h3 : 2'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 60:21]
-  wire [1:0] _io_col_G_T = P2_io_inbound ? 2'h3 : 2'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 61:21]
-  wire [1:0] _io_col_B_T = Ball_io_inbound ? 2'h3 : 2'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 62:21]
-  wire  _io_col_R_T_7 = io_indexX[5] ^ io_indexY[5] ^ (io_indexX[2] ^ io_indexY[2]); // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 65:47]
-  wire  _io_col_G_T_7 = io_indexX[4] ^ io_indexY[4] ^ (io_indexX[1] ^ io_indexY[1]); // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 66:47]
-  wire  _io_col_B_T_7 = io_indexX[3] ^ io_indexY[3] ^ (io_indexX[0] ^ io_indexY[0]); // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 67:47]
-  PaddleObj P1 ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:18]
+  wire  P1_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P1_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P1_io_input; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire [10:0] P1_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire [10:0] P1_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P1_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire [10:0] P1_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P1_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
+  wire  P2_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  P2_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  P2_io_input; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire [10:0] P2_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire [10:0] P2_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  P2_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire [10:0] P2_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  P2_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
+  wire  Ball_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire [10:0] Ball_io_pos_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire [10:0] Ball_io_pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire [10:0] Ball_io_P1Pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire [10:0] Ball_io_P2Pos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_outLeftBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
+  wire  _io_col_B_T_6 = io_indexX[3] ^ io_indexY[3] ^ (io_indexX[0] ^ io_indexY[0]); // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 74:47]
+  wire  _GEN_0 = Ball_io_inbound ? 1'h0 : io_indexX[5] ^ io_indexY[5] ^ (io_indexX[2] ^ io_indexY[2]); // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 66:32 67:14 72:14]
+  wire  _GEN_1 = Ball_io_inbound ? 1'h0 : io_indexX[4] ^ io_indexY[4] ^ (io_indexX[1] ^ io_indexY[1]); // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 66:32 68:14 73:14]
+  wire [1:0] _GEN_2 = Ball_io_inbound ? 2'h3 : {{1'd0}, _io_col_B_T_6}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 66:32 69:14 74:14]
+  wire  _GEN_3 = P2_io_inbound ? 1'h0 : _GEN_0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 62:30 63:14]
+  wire [1:0] _GEN_4 = P2_io_inbound ? 2'h3 : {{1'd0}, _GEN_1}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 62:30 64:14]
+  wire [1:0] _GEN_5 = P2_io_inbound ? 2'h0 : _GEN_2; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 62:30 65:14]
+  PaddleObj P1 ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 35:18]
     .clock(P1_clock),
     .reset(P1_reset),
     .io_input(P1_io_input),
@@ -512,7 +513,7 @@ module GraphicsProcessor(
     .io_paddlePos_1(P1_io_paddlePos_1),
     .io_updateLogic(P1_io_updateLogic)
   );
-  PaddleObj_1 P2 ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:18]
+  PaddleObj_1 P2 ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 40:18]
     .clock(P2_clock),
     .reset(P2_reset),
     .io_input(P2_io_input),
@@ -522,7 +523,7 @@ module GraphicsProcessor(
     .io_paddlePos_1(P2_io_paddlePos_1),
     .io_updateLogic(P2_io_updateLogic)
   );
-  BallObj Ball ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:20]
+  BallObj Ball ( // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 45:20]
     .clock(Ball_clock),
     .reset(Ball_reset),
     .io_pos_0(Ball_io_pos_0),
@@ -534,28 +535,28 @@ module GraphicsProcessor(
     .io_outLeftBound(Ball_io_outLeftBound),
     .io_outRightBound(Ball_io_outRightBound)
   );
-  assign io_col_R = P1_io_inbound | P2_io_inbound | Ball_io_inbound ? _io_col_R_T : {{1'd0}, _io_col_R_T_7}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 59:60 60:14 65:14]
-  assign io_col_G = P1_io_inbound | P2_io_inbound | Ball_io_inbound ? _io_col_G_T : {{1'd0}, _io_col_G_T_7}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 59:60 61:14 66:14]
-  assign io_col_B = P1_io_inbound | P2_io_inbound | Ball_io_inbound ? _io_col_B_T : {{1'd0}, _io_col_B_T_7}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 59:60 62:14 67:14]
+  assign io_col_R = P1_io_inbound ? 2'h3 : {{1'd0}, _GEN_3}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 58:24 59:14]
+  assign io_col_G = P1_io_inbound ? 2'h0 : _GEN_4; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 58:24 60:14]
+  assign io_col_B = P1_io_inbound ? 2'h0 : _GEN_5; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 58:24 61:14]
   assign P1_clock = clock;
-  assign P1_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 53:46]
-  assign P1_io_input = io_input1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 37:15]
-  assign P1_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:36]
-  assign P1_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:53]
-  assign P1_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 39:21]
+  assign P1_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 52:46]
+  assign P1_io_input = io_input1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 36:15]
+  assign P1_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:36]
+  assign P1_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:53]
+  assign P1_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:21]
   assign P2_clock = clock;
-  assign P2_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 53:46]
-  assign P2_io_input = io_input2; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 42:15]
-  assign P2_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:36]
-  assign P2_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:53]
-  assign P2_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 44:21]
+  assign P2_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 52:46]
+  assign P2_io_input = io_input2; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 41:15]
+  assign P2_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:36]
+  assign P2_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:53]
+  assign P2_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 43:21]
   assign Ball_clock = clock;
-  assign Ball_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 53:46]
-  assign Ball_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:36]
-  assign Ball_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 34:53]
-  assign Ball_io_P1Pos_1 = P1_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 47:17]
-  assign Ball_io_P2Pos_1 = P2_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 48:17]
-  assign Ball_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 50:23]
+  assign Ball_reset = Ball_io_outLeftBound | Ball_io_outRightBound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 52:46]
+  assign Ball_io_pos_0 = io_indexX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:36]
+  assign Ball_io_pos_1 = io_indexY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 33:53]
+  assign Ball_io_P1Pos_1 = P1_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 46:17]
+  assign Ball_io_P2Pos_1 = P2_io_paddlePos_1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 47:17]
+  assign Ball_io_updateLogic = io_screenDone; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 49:23]
 endmodule
 module GraphicsManager(
   input        clock,
@@ -731,6 +732,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+
 
 
 module tt_um_example (
