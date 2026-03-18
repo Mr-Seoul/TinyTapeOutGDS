@@ -244,46 +244,52 @@ module BallObj(
   reg  outLeftBound; // @[\\src\\main\\scala\\vga\\Ball.scala 25:29]
   reg  outRightBound; // @[\\src\\main\\scala\\vga\\Ball.scala 26:30]
   wire [9:0] _velocity_1_T_3 = 10'sh1e0 - 10'sha; // @[\\src\\main\\scala\\vga\\Ball.scala 31:97]
-  wire [10:0] _GEN_13 = {{1{_velocity_1_T_3[9]}},_velocity_1_T_3}; // @[\\src\\main\\scala\\vga\\Ball.scala 31:88]
+  wire [10:0] _GEN_15 = {{1{_velocity_1_T_3[9]}},_velocity_1_T_3}; // @[\\src\\main\\scala\\vga\\Ball.scala 31:88]
   wire [10:0] _velocity_1_T_7 = 11'sh0 - $signed(ballSpeed); // @[\\src\\main\\scala\\vga\\Ball.scala 31:127]
+  wire [10:0] _velocity_1_T_8 = $signed(curPos_1) > $signed(_GEN_15) ? $signed(_velocity_1_T_7) : $signed(velocity_1); // @[\\src\\main\\scala\\vga\\Ball.scala 31:77]
+  wire [10:0] _velocity_1_T_9 = $signed(curPos_1) < 11'sha ? $signed(ballSpeed) : $signed(_velocity_1_T_8); // @[\\src\\main\\scala\\vga\\Ball.scala 31:23]
   wire [10:0] _curPos_0_T_2 = $signed(curPos_0) + $signed(velocity_0); // @[\\src\\main\\scala\\vga\\Ball.scala 32:28]
   wire [10:0] _curPos_1_T_2 = $signed(curPos_1) + $signed(velocity_1); // @[\\src\\main\\scala\\vga\\Ball.scala 33:28]
-  wire  goingLeft = $signed(velocity_0) < 11'sh0; // @[\\src\\main\\scala\\vga\\Ball.scala 36:33]
-  wire [7:0] _rightPaddledist_T = 3'sh2 * 5'sha; // @[\\src\\main\\scala\\vga\\Ball.scala 37:72]
-  wire [7:0] _rightPaddledist_T_3 = 8'sh50 + $signed(_rightPaddledist_T); // @[\\src\\main\\scala\\vga\\Ball.scala 37:67]
-  wire [7:0] _rightPaddledist_T_6 = $signed(_rightPaddledist_T_3) + 8'sha; // @[\\src\\main\\scala\\vga\\Ball.scala 37:100]
-  wire [10:0] _GEN_14 = {{3{_rightPaddledist_T_6[7]}},_rightPaddledist_T_6}; // @[\\src\\main\\scala\\vga\\Ball.scala 37:34]
-  wire [10:0] _rightPaddledist_T_9 = 11'sh280 - $signed(_GEN_14); // @[\\src\\main\\scala\\vga\\Ball.scala 37:34]
-  wire [10:0] rightPaddledist = $signed(_rightPaddledist_T_9) - $signed(curPos_0); // @[\\src\\main\\scala\\vga\\Ball.scala 37:130]
-  wire [10:0] leftPaddledist = $signed(curPos_0) - $signed(_GEN_14); // @[\\src\\main\\scala\\vga\\Ball.scala 38:36]
-  wire [10:0] _T_6 = $signed(io_P1Pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 39:144]
-  wire [10:0] _T_10 = 11'sh0 - $signed(_T_6); // @[\\src\\main\\scala\\vga\\Ball.scala 39:157]
-  wire [10:0] _T_11 = $signed(_T_6) < 11'sh0 ? $signed(_T_10) : $signed(_T_6); // @[\\src\\main\\scala\\vga\\Ball.scala 39:157]
-  wire [10:0] _T_21 = $signed(io_P2Pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 42:153]
-  wire [10:0] _T_25 = 11'sh0 - $signed(_T_21); // @[\\src\\main\\scala\\vga\\Ball.scala 42:166]
-  wire [10:0] _T_26 = $signed(_T_21) < 11'sh0 ? $signed(_T_25) : $signed(_T_21); // @[\\src\\main\\scala\\vga\\Ball.scala 42:166]
-  wire [10:0] _ballSpeed_T_2 = $signed(ballSpeed) + 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 44:30]
-  wire [10:0] _curPos_0_T_17 = 11'sh280 - 11'sh64; // @[\\src\\main\\scala\\vga\\Ball.scala 45:26]
-  wire [10:0] diffX = $signed(io_pos_0) - $signed(curPos_0); // @[\\src\\main\\scala\\vga\\Ball.scala 54:25]
-  wire [10:0] diffY = $signed(io_pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 55:25]
-  wire [10:0] _absX_T_3 = 11'sh0 - $signed(diffX); // @[\\src\\main\\scala\\vga\\Ball.scala 56:20]
-  wire [10:0] absX = $signed(diffX) < 11'sh0 ? $signed(_absX_T_3) : $signed(diffX); // @[\\src\\main\\scala\\vga\\Ball.scala 56:20]
-  wire [10:0] _absY_T_3 = 11'sh0 - $signed(diffY); // @[\\src\\main\\scala\\vga\\Ball.scala 57:20]
-  wire [10:0] absY = $signed(diffY) < 11'sh0 ? $signed(_absY_T_3) : $signed(diffY); // @[\\src\\main\\scala\\vga\\Ball.scala 57:20]
-  assign io_inbound = $signed(absX) < 11'sha & $signed(absY) < 11'sha; // @[\\src\\main\\scala\\vga\\Ball.scala 58:53]
-  assign io_outLeftBound = outLeftBound; // @[\\src\\main\\scala\\vga\\Ball.scala 66:19]
-  assign io_outRightBound = outRightBound; // @[\\src\\main\\scala\\vga\\Ball.scala 65:20]
-  assign io_sideX = diffX[10]; // @[\\src\\main\\scala\\vga\\Ball.scala 62:25]
-  assign io_sideY = diffY[10]; // @[\\src\\main\\scala\\vga\\Ball.scala 63:25]
+  wire [10:0] newYSpeed = velocity_1[0] ^ velocity_0[1] ? $signed(ballSpeed) : $signed(_velocity_1_T_7); // @[\\src\\main\\scala\\vga\\Ball.scala 35:24]
+  wire  goingLeft = $signed(velocity_0) < 11'sh0; // @[\\src\\main\\scala\\vga\\Ball.scala 38:33]
+  wire [7:0] _rightPaddledist_T = 3'sh2 * 5'sha; // @[\\src\\main\\scala\\vga\\Ball.scala 39:72]
+  wire [7:0] _rightPaddledist_T_3 = 8'sh50 + $signed(_rightPaddledist_T); // @[\\src\\main\\scala\\vga\\Ball.scala 39:67]
+  wire [7:0] _rightPaddledist_T_6 = $signed(_rightPaddledist_T_3) + 8'sha; // @[\\src\\main\\scala\\vga\\Ball.scala 39:100]
+  wire [10:0] _GEN_16 = {{3{_rightPaddledist_T_6[7]}},_rightPaddledist_T_6}; // @[\\src\\main\\scala\\vga\\Ball.scala 39:34]
+  wire [10:0] _rightPaddledist_T_9 = 11'sh280 - $signed(_GEN_16); // @[\\src\\main\\scala\\vga\\Ball.scala 39:34]
+  wire [10:0] rightPaddledist = $signed(_rightPaddledist_T_9) - $signed(curPos_0); // @[\\src\\main\\scala\\vga\\Ball.scala 39:130]
+  wire [10:0] leftPaddledist = $signed(curPos_0) - $signed(_GEN_16); // @[\\src\\main\\scala\\vga\\Ball.scala 40:36]
+  wire [10:0] _T_6 = $signed(io_P1Pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 41:144]
+  wire [10:0] _T_10 = 11'sh0 - $signed(_T_6); // @[\\src\\main\\scala\\vga\\Ball.scala 41:157]
+  wire [10:0] _T_11 = $signed(_T_6) < 11'sh0 ? $signed(_T_10) : $signed(_T_6); // @[\\src\\main\\scala\\vga\\Ball.scala 41:157]
+  wire [10:0] _T_21 = $signed(io_P2Pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 45:153]
+  wire [10:0] _T_25 = 11'sh0 - $signed(_T_21); // @[\\src\\main\\scala\\vga\\Ball.scala 45:166]
+  wire [10:0] _T_26 = $signed(_T_21) < 11'sh0 ? $signed(_T_25) : $signed(_T_21); // @[\\src\\main\\scala\\vga\\Ball.scala 45:166]
+  wire [10:0] _ballSpeed_T_2 = $signed(ballSpeed) + 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 48:30]
+  wire [10:0] _curPos_0_T_17 = 11'sh280 - 11'sh64; // @[\\src\\main\\scala\\vga\\Ball.scala 49:26]
+  wire [10:0] diffX = $signed(io_pos_0) - $signed(curPos_0); // @[\\src\\main\\scala\\vga\\Ball.scala 58:25]
+  wire [10:0] diffY = $signed(io_pos_1) - $signed(curPos_1); // @[\\src\\main\\scala\\vga\\Ball.scala 59:25]
+  wire [10:0] _absX_T_3 = 11'sh0 - $signed(diffX); // @[\\src\\main\\scala\\vga\\Ball.scala 60:20]
+  wire [10:0] absX = $signed(diffX) < 11'sh0 ? $signed(_absX_T_3) : $signed(diffX); // @[\\src\\main\\scala\\vga\\Ball.scala 60:20]
+  wire [10:0] _absY_T_3 = 11'sh0 - $signed(diffY); // @[\\src\\main\\scala\\vga\\Ball.scala 61:20]
+  wire [10:0] absY = $signed(diffY) < 11'sh0 ? $signed(_absY_T_3) : $signed(diffY); // @[\\src\\main\\scala\\vga\\Ball.scala 61:20]
+  wire  inSquare = $signed(absX) < 11'sha & $signed(absY) < 11'sha; // @[\\src\\main\\scala\\vga\\Ball.scala 62:53]
+  wire [10:0] _inDiamond_T_2 = $signed(absX) + $signed(absY); // @[\\src\\main\\scala\\vga\\Ball.scala 63:24]
+  wire  inDiamond = $signed(_inDiamond_T_2) < 11'shf; // @[\\src\\main\\scala\\vga\\Ball.scala 63:31]
+  assign io_inbound = inSquare & inDiamond; // @[\\src\\main\\scala\\vga\\Ball.scala 65:26]
+  assign io_outLeftBound = outLeftBound; // @[\\src\\main\\scala\\vga\\Ball.scala 70:19]
+  assign io_outRightBound = outRightBound; // @[\\src\\main\\scala\\vga\\Ball.scala 69:20]
+  assign io_sideX = diffX[10]; // @[\\src\\main\\scala\\vga\\Ball.scala 66:25]
+  assign io_sideY = diffY[10]; // @[\\src\\main\\scala\\vga\\Ball.scala 67:25]
   always @(posedge clock) begin
     if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 20:26]
       ballSpeed <= 11'sh2; // @[\\src\\main\\scala\\vga\\Ball.scala 20:26]
     end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 29:24]
       if (!(goingLeft & $signed(leftPaddledist) > 11'sh28 & $signed(leftPaddledist) < 11'sh0 & $signed(_T_11) < 11'sh28
-        )) begin // @[\\src\\main\\scala\\vga\\Ball.scala 39:193]
+        )) begin // @[\\src\\main\\scala\\vga\\Ball.scala 41:193]
         if (~goingLeft & $signed(rightPaddledist) > 11'sh28 & $signed(rightPaddledist) < 11'sh0 & $signed(_T_26) < 11'sh28
-          ) begin // @[\\src\\main\\scala\\vga\\Ball.scala 42:202]
-          ballSpeed <= _ballSpeed_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 44:17]
+          ) begin // @[\\src\\main\\scala\\vga\\Ball.scala 45:202]
+          ballSpeed <= _ballSpeed_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 48:17]
         end
       end
     end
@@ -291,11 +297,11 @@ module BallObj(
       curPos_0 <= 11'sh140; // @[\\src\\main\\scala\\vga\\Ball.scala 22:23]
     end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 29:24]
       if (goingLeft & $signed(leftPaddledist) > 11'sh28 & $signed(leftPaddledist) < 11'sh0 & $signed(_T_11) < 11'sh28
-        ) begin // @[\\src\\main\\scala\\vga\\Ball.scala 39:193]
-        curPos_0 <= 11'sh64; // @[\\src\\main\\scala\\vga\\Ball.scala 41:17]
+        ) begin // @[\\src\\main\\scala\\vga\\Ball.scala 41:193]
+        curPos_0 <= 11'sh64; // @[\\src\\main\\scala\\vga\\Ball.scala 44:17]
       end else if (~goingLeft & $signed(rightPaddledist) > 11'sh28 & $signed(rightPaddledist) < 11'sh0 & $signed(_T_26)
-         < 11'sh28) begin // @[\\src\\main\\scala\\vga\\Ball.scala 42:202]
-        curPos_0 <= _curPos_0_T_17; // @[\\src\\main\\scala\\vga\\Ball.scala 45:17]
+         < 11'sh28) begin // @[\\src\\main\\scala\\vga\\Ball.scala 45:202]
+        curPos_0 <= _curPos_0_T_17; // @[\\src\\main\\scala\\vga\\Ball.scala 49:17]
       end else begin
         curPos_0 <= _curPos_0_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 32:15]
       end
@@ -309,31 +315,35 @@ module BallObj(
       velocity_0 <= 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 23:25]
     end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 29:24]
       if (goingLeft & $signed(leftPaddledist) > 11'sh28 & $signed(leftPaddledist) < 11'sh0 & $signed(_T_11) < 11'sh28
-        ) begin // @[\\src\\main\\scala\\vga\\Ball.scala 39:193]
-        velocity_0 <= ballSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 40:19]
+        ) begin // @[\\src\\main\\scala\\vga\\Ball.scala 41:193]
+        velocity_0 <= ballSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 42:19]
       end else if (~goingLeft & $signed(rightPaddledist) > 11'sh28 & $signed(rightPaddledist) < 11'sh0 & $signed(_T_26)
-         < 11'sh28) begin // @[\\src\\main\\scala\\vga\\Ball.scala 42:202]
-        velocity_0 <= _velocity_1_T_7; // @[\\src\\main\\scala\\vga\\Ball.scala 43:19]
+         < 11'sh28) begin // @[\\src\\main\\scala\\vga\\Ball.scala 45:202]
+        velocity_0 <= _velocity_1_T_7; // @[\\src\\main\\scala\\vga\\Ball.scala 46:19]
       end
     end
     if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 23:25]
       velocity_1 <= 11'sh1; // @[\\src\\main\\scala\\vga\\Ball.scala 23:25]
     end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 29:24]
-      if ($signed(curPos_1) < 11'sha) begin // @[\\src\\main\\scala\\vga\\Ball.scala 31:23]
-        velocity_1 <= ballSpeed;
-      end else if ($signed(curPos_1) > $signed(_GEN_13)) begin // @[\\src\\main\\scala\\vga\\Ball.scala 31:77]
-        velocity_1 <= _velocity_1_T_7;
+      if (goingLeft & $signed(leftPaddledist) > 11'sh28 & $signed(leftPaddledist) < 11'sh0 & $signed(_T_11) < 11'sh28
+        ) begin // @[\\src\\main\\scala\\vga\\Ball.scala 41:193]
+        velocity_1 <= newYSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 43:19]
+      end else if (~goingLeft & $signed(rightPaddledist) > 11'sh28 & $signed(rightPaddledist) < 11'sh0 & $signed(_T_26)
+         < 11'sh28) begin // @[\\src\\main\\scala\\vga\\Ball.scala 45:202]
+        velocity_1 <= newYSpeed; // @[\\src\\main\\scala\\vga\\Ball.scala 47:19]
+      end else begin
+        velocity_1 <= _velocity_1_T_9; // @[\\src\\main\\scala\\vga\\Ball.scala 31:17]
       end
     end
     if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 25:29]
       outLeftBound <= 1'h0; // @[\\src\\main\\scala\\vga\\Ball.scala 25:29]
     end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 29:24]
-      outLeftBound <= $signed(curPos_0) < 11'sh0; // @[\\src\\main\\scala\\vga\\Ball.scala 50:18]
+      outLeftBound <= $signed(curPos_0) < 11'sh0; // @[\\src\\main\\scala\\vga\\Ball.scala 54:18]
     end
     if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 26:30]
       outRightBound <= 1'h0; // @[\\src\\main\\scala\\vga\\Ball.scala 26:30]
     end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 29:24]
-      outRightBound <= $signed(curPos_0) > 11'sh280; // @[\\src\\main\\scala\\vga\\Ball.scala 49:19]
+      outRightBound <= $signed(curPos_0) > 11'sh280; // @[\\src\\main\\scala\\vga\\Ball.scala 53:19]
     end
   end
 // Register and memory initialization
@@ -670,6 +680,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+
 
 
 
