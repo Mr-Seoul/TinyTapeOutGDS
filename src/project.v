@@ -669,11 +669,11 @@ module tt_um_pong (
     VGAModule VGA (
         .clock(clk),
          .reset(~rst_n),
-        .io_col_R(uo_out[1:0]),
-        .io_col_G(uo_out[3:2]),
-        .io_col_B(uo_out[5:4]),
-        .io_hsync(uo_out[6]),
-        .io_vsync(uo_out[7]),
+        .io_col_R({uo_out[4], uo_out[0]}),
+        .io_col_G({uo_out[5], uo_out[1]}),
+        .io_col_B({uo_out[6], uo_out[2]}),
+        .io_hsync(uo_out[7]),
+        .io_vsync(uo_out[3]),
         .io_input1(ui_in[0]),
         .io_input2(ui_in[1])
     
