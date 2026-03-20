@@ -268,7 +268,7 @@ module BallObj(
   wire [10:0] _inSquareY_T_3 = $signed(curPos_1) + 11'sh10; // @[\\src\\main\\scala\\vga\\Ball.scala 56:68]
   wire  inSquareY = $signed(io_pos_1) >= $signed(curPos_1) & $signed(io_pos_1) < $signed(_inSquareY_T_3); // @[\\src\\main\\scala\\vga\\Ball.scala 56:43]
   assign io_inbound = inSquareX & inSquareY; // @[\\src\\main\\scala\\vga\\Ball.scala 57:28]
-  assign io_outLeftBound = $signed(curPos_0) < -11'sh10; // @[\\src\\main\\scala\\vga\\Ball.scala 63:32]
+  assign io_outLeftBound = $signed(curPos_0) < 11'sh0; // @[\\src\\main\\scala\\vga\\Ball.scala 63:32]
   assign io_outRightBound = $signed(curPos_0) > 11'sh280; // @[\\src\\main\\scala\\vga\\Ball.scala 62:33]
   always @(posedge clock) begin
     if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 18:26]
@@ -753,6 +753,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+
 
 
 
