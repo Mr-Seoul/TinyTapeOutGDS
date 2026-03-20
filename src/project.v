@@ -407,8 +407,7 @@ module GraphicsProcessor(
   wire [3:0] BaysianDither = {io_indexY[0],XOR1,io_indexY[1],XOR0}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 65:68]
   wire [10:0] _GEN_4 = P2_io_inbound ? P2_io_diffX : 11'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 75:30 76:15]
   wire [10:0] inputAbsX = P1_io_inbound ? P1_io_diffX : _GEN_4; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 70:24 71:15]
-  wire [10:0] _GEN_12 = {{7'd0}, BaysianDither}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 68:28]
-  wire  dithered = inputAbsX <= _GEN_12; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 68:28]
+  wire  dithered = inputAbsX[10:4] == 7'h0 & inputAbsX[3:0] <= BaysianDither; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 68:45]
   wire [1:0] _io_col_R_T = {dithered,1'h1}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 72:20]
   wire  _io_col_G_T_1 = XOR4 ^ XOR1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 89:24]
   wire  _io_col_B_T = XOR3 ^ XOR0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 90:24]
@@ -754,6 +753,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+
 
 
 
