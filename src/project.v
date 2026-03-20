@@ -14,7 +14,7 @@ module PaddleLeftObj(
   output        io_inbound, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
   output [9:0]  io_paddlePosY, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
   input         io_updateLogic, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
-  output [10:0] io_diffX // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
+  output [4:0]  io_diffX // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -35,7 +35,7 @@ module PaddleLeftObj(
   wire  inYBound = $signed(io_posY) >= $signed(Top) & $signed(io_posY) <= $signed(curPosY); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 51:35]
   assign io_inbound = inXBound & inYBound; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 54:27]
   assign io_paddlePosY = curPosY; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 57:17]
-  assign io_diffX = 11'sh50 - $signed(io_posX); // @[\\src\\main\\scala\\vga\\PaddleLeftObj.scala 4:20]
+  assign io_diffX = diffX[4:0]; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 45:20]
   always @(posedge clock) begin
     if (reset) begin // @[\\src\\main\\scala\\vga\\PaddleObj.scala 19:24]
       curPosY <= 10'shf0; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 19:24]
@@ -117,7 +117,7 @@ module PaddleRightObj(
   output        io_inbound, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
   output [9:0]  io_paddlePosY, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
   input         io_updateLogic, // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
-  output [10:0] io_diffX // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
+  output [4:0]  io_diffX // @[\\src\\main\\scala\\vga\\PaddleObj.scala 16:14]
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
@@ -138,7 +138,7 @@ module PaddleRightObj(
   wire  inYBound = $signed(io_posY) >= $signed(Top) & $signed(io_posY) <= $signed(curPosY); // @[\\src\\main\\scala\\vga\\PaddleObj.scala 51:35]
   assign io_inbound = inXBound & inYBound; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 54:27]
   assign io_paddlePosY = curPosY; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 57:17]
-  assign io_diffX = $signed(io_posX) - 11'sh230; // @[\\src\\main\\scala\\vga\\PaddleRightObj.scala 4:20]
+  assign io_diffX = diffX[4:0]; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 45:20]
   always @(posedge clock) begin
     if (reset) begin // @[\\src\\main\\scala\\vga\\PaddleObj.scala 19:24]
       curPosY <= 10'shf0; // @[\\src\\main\\scala\\vga\\PaddleObj.scala 19:24]
@@ -365,7 +365,7 @@ module GraphicsProcessor(
   wire  P1_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:18]
   wire [9:0] P1_io_paddlePosY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:18]
   wire  P1_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:18]
-  wire [10:0] P1_io_diffX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:18]
+  wire [4:0] P1_io_diffX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 32:18]
   wire  P2_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:18]
   wire  P2_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:18]
   wire  P2_io_input; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:18]
@@ -374,7 +374,7 @@ module GraphicsProcessor(
   wire  P2_io_inbound; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:18]
   wire [9:0] P2_io_paddlePosY; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:18]
   wire  P2_io_updateLogic; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:18]
-  wire [10:0] P2_io_diffX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:18]
+  wire [4:0] P2_io_diffX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 38:18]
   wire  Ball_clock; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 44:20]
   wire  Ball_reset; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 44:20]
   wire [10:0] Ball_io_posX; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 44:20]
@@ -392,9 +392,10 @@ module GraphicsProcessor(
   wire  XOR4 = io_indexX[4] ^ io_indexY[4]; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 61:27]
   wire  XOR5 = io_indexX[5] ^ io_indexY[5]; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 62:27]
   wire [3:0] BaysianDither = {io_indexY[0],XOR1,io_indexY[1],XOR0}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 65:68]
-  wire [10:0] _GEN_4 = P2_io_inbound ? P2_io_diffX : 11'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 74:30 75:15]
-  wire [10:0] inputAbsX = P1_io_inbound ? P1_io_diffX : _GEN_4; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 69:24 70:15]
-  wire  dithered = inputAbsX[10:4] == 7'h0 & inputAbsX[3:0] <= BaysianDither; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 67:45]
+  wire [4:0] _GEN_4 = P2_io_inbound ? P2_io_diffX : 5'h0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 74:30 75:15]
+  wire [4:0] inputAbsX = P1_io_inbound ? P1_io_diffX : _GEN_4; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 69:24 70:15]
+  wire [4:0] _GEN_12 = {{1'd0}, BaysianDither}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 67:29]
+  wire  dithered = inputAbsX <= _GEN_12; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 67:29]
   wire [1:0] _io_col_R_T = {dithered,1'h1}; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 71:20]
   wire  _io_col_G_T_1 = XOR4 ^ XOR1; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 88:24]
   wire  _io_col_B_T = XOR3 ^ XOR0; // @[\\src\\main\\scala\\vga\\GraphicsProcessor.scala 89:24]
