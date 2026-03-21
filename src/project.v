@@ -285,7 +285,7 @@ module BallObj(
       curPosX <= _curPosX_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 32:13]
     end
     if (reset) begin // @[\\src\\main\\scala\\vga\\Ball.scala 22:24]
-      curPosY <= 10'shf0; // @[\\src\\main\\scala\\vga\\Ball.scala 22:24]
+      curPosY <= 10'sh40; // @[\\src\\main\\scala\\vga\\Ball.scala 22:24]
     end else if (io_updateLogic) begin // @[\\src\\main\\scala\\vga\\Ball.scala 27:24]
       curPosY <= _curPosY_T_2; // @[\\src\\main\\scala\\vga\\Ball.scala 33:13]
     end
@@ -741,6 +741,7 @@ end // initial
 `endif
 `endif // SYNTHESIS
 endmodule
+
 
 
 
