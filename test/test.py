@@ -8,8 +8,14 @@ from cocotb.triggers import ClockCycles
 
 @cocotb.test()
 async def test_project(dut):
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    assert True
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
+    clock = Clock(dut.clk, 40, units="ns")
+    cocotb.start_soon(clock.start())
+
+    dut.rst_n.value = 0
+    await Timer(100, units="ns")
+    dut.rst_n.value = 1
+
+    for _ in range(1000):
+        await RisingEdge(dut.clk)
+
+    assert dut.uo_out.value != 0
