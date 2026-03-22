@@ -9,7 +9,7 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Using a 25.175 MHz clock, the top module generates the VGA Timings for visual output. Using 2 debouncing modules, the inputs are debounced for input stability. The x and y indices of the VGA module are passed onto a graphicsprocessing module, which compares the coordinates to the bounds of the paddles and ball. If not inside one of the objects, it generates a XOR background. The ball and paddles use position and velocity registers, while the ball has 1 velocity register and 2 registers storing direction information for lower register usage.
+Using a 25.175 MHz clock, the top module generates the VGA Timings for visual output. Using 2 debouncing modules, the inputs are debounced for input stability. The x and y indices of the VGA module are passed onto a graphicsprocessing module, which compares the coordinates to the bounds of the paddles and ball. If not inside one of the objects, it generates a XOR background. The paddles use position and y velocity registers (they only move up and down), while the ball has a position 1 velocity register and 2 registers storing direction information for lower register usage.
 
 ## How to test
 
