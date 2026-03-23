@@ -34,24 +34,24 @@ async def test_project(dut):
     dut.rst_n.value = 0
     dut.ena.value = 1
     await ClockCycles(dut.clk, 5)
-    assert vga.hsync.value == 1
-    assert vga.vsync.value == 1
+    assert vga.hsync().value == 1
+    assert vga.vsync().value == 1
 
     dut._log.info("Reset pressed (checking if reset synchronizer isn't fucked).")
     await resetDUT(dut)
     dut._log.info("Reset released.")
 
     dut._log.info("Testing Hsync")
-    await FallingEdge(vga.hsync)
+    await FallingEdge(vga.hsync())
     start_time = cocotb.utils.get_sim_time(unit='ns')
-    await RisingEdge(vga.hsync)
+    await RisingEdge(vga.hsync())
     end_time = cocotb.utils.get_sim_time(unit='ns')
     
     pulse_width_cycles = (end_time - start_time) / 40 
     assert pulse_width_cycles == 96
 
     dut._log.info("Testing If data is being written to the screen")
-    await RisingEdge(vga.hsync)
+    await RisingEdge(vga.hsync())
     await ClockCycles(dut.clk, 50)
 
     assert dut.uo_out.value != 0
