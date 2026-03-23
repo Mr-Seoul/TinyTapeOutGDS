@@ -1044,21 +1044,33 @@ module tt_um_pong (
     input  wire       rst_n     // reset_n - low to reset
 );
 
+    wire [1:0] r, g, b;
+    wire hsync, vsync;
+
   // All output pins must be assigned. If not used, assign to 0.
     assign uio_out = 8'b0;
     assign uio_oe = 8'b0;
 
     VGAModule VGA (
         .clock(clk),
-         .reset(~rst_n),
-        .io_col_R({uo_out[4], uo_out[0]}),
-        .io_col_G({uo_out[5], uo_out[1]}),
-        .io_col_B({uo_out[6], uo_out[2]}),
-        .io_hsync(uo_out[7]),
-        .io_vsync(uo_out[3]),
+        .reset(~rst_n),
+        .io_col_R(r),
+        .io_col_G(g),
+        .io_col_B(b),
+        .io_hsync(hsync),
+        .io_vsync(vsync),
         .io_input1(ui_in[0]),
         .io_input2(ui_in[1])
     );
+
+    assign uo_out[0] = r[0];
+    assign uo_out[4] = r[1];
+    assign uo_out[1] = g[0];
+    assign uo_out[5] = g[1];
+    assign uo_in[2] = b[0];
+    assign uo_out[6] = b[1];
+    assign uo_out[3] = vsync;
+    assign uo_out[7] = hsync;
 
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, ui_in[7:2], uio_in[7:0], 1'b0};
