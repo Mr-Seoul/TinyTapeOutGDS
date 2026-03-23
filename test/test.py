@@ -15,6 +15,20 @@ class VGA_Signals:
     def vsync(self):
         return self.dut.uo_out[3]
 
+async def HsyncFall(dut):
+    while dut.uo_out.value[7] == 0:
+        await RisingEdge(dut.clk)
+    
+    while dut.uo_out.value[7] == 1:
+        await RisingEdge(dut.clk)
+
+async def HsyncRise(dut):
+     while dut.uo_out.value[7] == 1:
+        await RisingEdge(dut.clk)
+         
+    while dut.uo_out.value[7] == 0:
+        await RisingEdge(dut.clk)
+
 async def resetDUT(dut):
     dut.rst_n.value = 0
     dut.ena.value = 1
@@ -42,16 +56,16 @@ async def test_project(dut):
     dut._log.info("Reset released.")
 
     dut._log.info("Testing Hsync")
-    await FallingEdge(vga.hsync())
+    await HsyncFall(dut)
     start_time = cocotb.utils.get_sim_time(unit='ns')
-    await RisingEdge(vga.hsync())
+    await HsyncRise(dut)
     end_time = cocotb.utils.get_sim_time(unit='ns')
     
     pulse_width_cycles = (end_time - start_time) / 40 
     assert pulse_width_cycles == 96
 
     dut._log.info("Testing If data is being written to the screen")
-    await RisingEdge(vga.hsync())
+    await HsyncRise(dut)
     await ClockCycles(dut.clk, 50)
 
     assert dut.uo_out.value != 0
