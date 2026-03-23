@@ -11,11 +11,11 @@ class VGA_Signals:
     
     @property
     def hsync(self):
-        return self.dut.uo_out.value[7] 
+        return self.dut.uo_out
     
     @property
     def vsync(self):
-        return self.dut.uo_out.value[3] 
+        return self.dut.uo_out
 
 async def resetDUT(dut):
     dut.rst_n.value = 0
