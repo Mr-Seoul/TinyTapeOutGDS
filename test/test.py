@@ -3,7 +3,7 @@
 
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles
+from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles, Timer
 
 class VGA_Signals:
     def __init__(self, dut):
