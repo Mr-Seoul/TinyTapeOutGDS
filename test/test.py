@@ -68,6 +68,6 @@ async def test_project(dut):
 
     dut._log.info("Testing If data is being written to the screen")
     await HsyncRise(dut)
-    await ClockCycles(dut.clk, 50)
+    await ClockCycles(dut.clk, 51)
     
     assert (int(dut.uo_out.value[0]) + int(dut.uo_out.value[1]) + int(dut.uo_out.value[2]) + int(dut.uo_out.value[4])  + int(dut.uo_out.value[5]) + int(dut.uo_out.value[6]) != 0)
