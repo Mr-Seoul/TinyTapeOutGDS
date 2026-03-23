@@ -20,11 +20,11 @@ async def HsyncFall(dut):
         await RisingEdge(dut.clk)
     
     while dut.uo_out.value[7] == 1:
-        await RisingEdge(dut.clk)
+        await FallingEdge(dut.clk)
 
 async def HsyncRise(dut):
      while dut.uo_out.value[7] == 1:
-        await RisingEdge(dut.clk)
+        await FallingEdge(dut.clk)
          
      while dut.uo_out.value[7] == 0:
         await RisingEdge(dut.clk)
@@ -67,5 +67,5 @@ async def test_project(dut):
     dut._log.info("Testing If data is being written to the screen")
     await HsyncRise(dut)
     await ClockCycles(dut.clk, 50)
-
-    assert dut.uo_out.value != 0
+    
+    assert (dut.uo_out.value[0] + uo_out.value[1] + uo_out.value[2] uo_out.value[4]  + uo_out.value[5] + uo_out.value[6] != 0)
