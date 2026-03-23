@@ -26,7 +26,7 @@ async def HsyncRise(dut):
      while dut.uo_out.value[7] == 1:
         await RisingEdge(dut.clk)
          
-    while dut.uo_out.value[7] == 0:
+     while dut.uo_out.value[7] == 0:
         await RisingEdge(dut.clk)
 
 async def resetDUT(dut):
