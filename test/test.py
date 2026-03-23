@@ -70,4 +70,4 @@ async def test_project(dut):
     await HsyncRise(dut)
     await ClockCycles(dut.clk, 50)
     
-    assert (dut.uo_out.value[0] + dut.uo_out.value[1] + dut.uo_out.value[2] + dut.uo_out.value[4]  + dut.uo_out.value[5] + dut.uo_out.value[6] != 0)
+    assert (int(dut.uo_out.value[0]) + int(dut.uo_out.value[1]) + int(dut.uo_out.value[2]) + int(dut.uo_out.value[4])  + int(dut.uo_out.value[5]) + int(dut.uo_out.value[6]) != 0)
