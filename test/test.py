@@ -36,8 +36,8 @@ async def test_project(dut):
     dut.rst_n.value = 0
     dut.ena.value = 1
     await ClockCycles(dut.clk, 5)
-    assert vga.hsync == 1
-    assert vga.vsync == 1
+    assert vga.hsync.value == 1
+    assert vga.vsync.value == 1
 
     dut._log.info("Reset pressed (checking if reset synchronizer isn't fucked).")
     await resetDUT(dut)
