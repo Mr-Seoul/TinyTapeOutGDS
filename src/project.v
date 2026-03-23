@@ -1063,14 +1063,14 @@ module tt_um_pong (
         .io_input2(ui_in[1])
     );
 
-    assign uo_out[0] = r[0];
-    assign uo_out[4] = r[1];
-    assign uo_out[1] = g[0];
-    assign uo_out[5] = g[1];
-    assign uo_in[2] = b[0];
-    assign uo_out[6] = b[1];
-    assign uo_out[3] = vsync;
-    assign uo_out[7] = hsync;
+  assign uo_out[0] = r[0];
+  assign uo_out[4] = r[1];
+  assign uo_out[1] = g[0];
+  assign uo_out[5] = g[1];
+  assign uo_in[2] = b[0];
+  assign uo_out[6] = b[1];
+  assign uo_out[3] = vsync; 
+  assign uo_out[7] = hsync; 
 
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, ui_in[7:2], uio_in[7:0], 1'b0};
