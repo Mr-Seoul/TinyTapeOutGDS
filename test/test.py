@@ -9,11 +9,9 @@ class VGA_Signals:
     def __init__(self, dut):
         self.dut = dut
     
-    @property
     def hsync(self):
         return self.dut.uo_out[7]
     
-    @property
     def vsync(self):
         return self.dut.uo_out[3]
 
