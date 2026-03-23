@@ -16,6 +16,7 @@ class VGA_Signals:
         return self.dut.uo_out[3]
 
 async def HsyncFall(dut):
+    if (dut.uo_out.value[7] == 0):
     while dut.uo_out.value[7] == 0:
         await RisingEdge(dut.clk)
     
@@ -23,6 +24,7 @@ async def HsyncFall(dut):
         await FallingEdge(dut.clk)
 
 async def HsyncRise(dut):
+    if (dut.uo_out.value[7] == 1):
      while dut.uo_out.value[7] == 1:
         await FallingEdge(dut.clk)
          
