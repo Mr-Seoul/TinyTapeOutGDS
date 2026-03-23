@@ -57,15 +57,15 @@ async def test_project(dut):
 
     dut._log.info("Testing Hsync")
     await HsyncFall(dut)
-    start_time = cocotb.utils.get_sim_time(unit='ns')
+    startTime = cocotb.utils.get_sim_time(unit='ns')
     await HsyncRise(dut)
-    end_time = cocotb.utils.get_sim_time(unit='ns')
+    endTime = cocotb.utils.get_sim_time(unit='ns')
     
-    pulse_width_cycles = (end_time - start_time) / 40 
-    assert pulse_width_cycles == 96
+    pulseWidthCycles = (endTime - startTime) / 40 
+    assert pulseWidthCycles == 96
 
     dut._log.info("Testing If data is being written to the screen")
     await HsyncRise(dut)
     await ClockCycles(dut.clk, 50)
     
-    assert (dut.uo_out.value[0] + uo_out.value[1] + uo_out.value[2] + uo_out.value[4]  + uo_out.value[5] + uo_out.value[6] != 0)
+    assert (dut.uo_out.value[0] + dut.uo_out.value[1] + dut.uo_out.value[2] + dut.uo_out.value[4]  + dut.uo_out.value[5] + dut.uo_out.value[6] != 0)
